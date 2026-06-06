@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Environment files (contain secrets)
+.env
+.env.local
+.env.production
+
+# Build output
+frontend/dist/
+dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Kiro specs (optional — remove this line if you want specs in repo)
+# .kiro/
