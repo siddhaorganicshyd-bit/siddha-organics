@@ -89,6 +89,19 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Siddha Organics API is running' })
 })
 
+// ─── Keep-alive (prevents Render free tier from sleeping) ─────────────────────
+
+if (process.env.NODE_ENV === 'production') {
+  const SELF_URL = `https://siddha-organics.onrender.com/api/health`
+  setInterval(async () => {
+    try {
+      await fetch(SELF_URL)
+    } catch {
+      // silently ignore ping failures
+    }
+  }, 14 * 60 * 1000) // Ping every 14 minutes (Render sleeps after 15 min)
+}
+
 // ─── 404 handler ─────────────────────────────────────────────────────────────
 
 app.use((req, res) => {
