@@ -97,7 +97,7 @@ export async function register(req, res) {
       role: 'user',
       status: 'pending_verification',
       emailVerified: false,
-      phoneVerified: false,
+      phoneVerified: true, // Auto-verify phone (no SMS provider configured)
     })
 
     await newUser.save()

@@ -380,7 +380,7 @@ export default function VerifyAccountPage() {
   }, [activateSession, navigate])
 
   const handleCompleteRegistration = () => {
-    if (!emailVerified || !phoneVerified) return
+    if (!emailVerified) return
     if (sessionData?.user && sessionData?.token) {
       setCompleting(true)
       activateSession(sessionData.user, sessionData.token)
@@ -414,13 +414,12 @@ export default function VerifyAccountPage() {
             Almost <span style={{ color: '#F5C842' }}>There!</span>
           </h2>
           <p className="text-white/70 text-sm leading-relaxed mb-8">
-            Verify your email and phone to activate your account and start shopping.
+            Verify your email to activate your account and start shopping.
           </p>
           <div className="flex flex-col gap-3">
             {[
               { icon: emailVerified ? '✅' : '1️⃣', text: 'Verify your email address' },
-              { icon: phoneVerified ? '✅' : '2️⃣', text: 'Verify your phone number' },
-              { icon: bothVerified ? '✅' : '🎉', text: 'Account activated!' },
+              { icon: emailVerified ? '✅' : '🎉', text: 'Account activated!' },
             ].map(({ icon, text }) => (
               <div
                 key={text}
@@ -459,19 +458,13 @@ export default function VerifyAccountPage() {
               </p>
             </div>
 
-            {/* Dual panels — side by side on sm+, stacked on mobile */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            {/* Email verification panel */}
+            <div className="mb-6">
               <EmailPanel
                 userId={userId}
                 email={email}
                 onVerified={handleEmailVerified}
                 isActive={!emailVerified}
-              />
-              <PhonePanel
-                userId={userId}
-                phone={phone}
-                onVerified={handlePhoneVerified}
-                isActive={!phoneVerified}
               />
             </div>
 
@@ -481,18 +474,13 @@ export default function VerifyAccountPage() {
                 <div className={`w-2 h-2 rounded-full ${emailVerified ? 'bg-green' : 'bg-gray-300'}`} />
                 Email {emailVerified ? 'verified' : 'pending'}
               </div>
-              <div className="w-8 h-px bg-gray-200" />
-              <div className={`flex items-center gap-1.5 text-xs font-medium ${phoneVerified ? 'text-green' : 'text-gray-400'}`}>
-                <div className={`w-2 h-2 rounded-full ${phoneVerified ? 'bg-green' : 'bg-gray-300'}`} />
-                Phone {phoneVerified ? 'verified' : 'pending'}
-              </div>
             </div>
 
             {/* Complete Registration button */}
             <button
               type="button"
               onClick={handleCompleteRegistration}
-              disabled={!bothVerified || completing}
+              disabled={!emailVerified || completing}
               className="w-full py-3.5 rounded-xl font-bold text-white text-sm transition-all hover:scale-[1.02] hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:scale-100"
               style={{ background: 'linear-gradient(135deg, #2D5016, #4A7C2F)' }}
               aria-disabled={!bothVerified}
