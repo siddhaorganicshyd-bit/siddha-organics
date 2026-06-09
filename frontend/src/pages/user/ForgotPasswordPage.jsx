@@ -218,20 +218,7 @@ function Step2Otp({ email, userId, devOtp: initialDevOtp, onSuccess }) {
         We sent a 6-digit code to <span className="font-semibold text-gray-700">{email}</span>
       </p>
 
-      {/* Dev mode banner */}
-      {devOtp && (
-        <div
-          className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 text-xs"
-          role="alert"
-          aria-label="Developer mode: OTP code displayed"
-        >
-          <p className="font-semibold text-amber-800">🛠️ Dev Mode — Reset Code</p>
-          <p className="text-amber-700 mt-0.5">
-            Your OTP:{' '}
-            <span className="font-mono font-bold text-amber-900 text-sm">{devOtp}</span>
-          </p>
-        </div>
-      )}
+      {/* OTP sent notification */}
 
       <div aria-busy={loading}>
         <OtpInput
@@ -591,12 +578,6 @@ export default function ForgotPasswordPage() {
             )}
           </div>
 
-          <p className="text-center text-xs text-gray-400 mt-6">
-            Are you an admin?{' '}
-            <Link to="/admin/login" className="text-brown hover:underline font-medium">
-              Admin login →
-            </Link>
-          </p>
         </div>
       </div>
     </div>

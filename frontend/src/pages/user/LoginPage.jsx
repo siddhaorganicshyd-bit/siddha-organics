@@ -188,11 +188,6 @@ export default function LoginPage() {
               </p>
             </div>
           </div>
-
-          <p className="text-center text-xs text-gray-400 mt-6">
-            Are you an admin?{' '}
-            <Link to="/admin/login" className="text-brown hover:underline font-medium">Admin login →</Link>
-          </p>
         </div>
       </div>
     </div>

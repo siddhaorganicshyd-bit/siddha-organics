@@ -120,16 +120,10 @@ function EmailPanel({ userId, email, onVerified, isActive }) {
         )}
       </div>
 
-      {/* Dev mode banner */}
-      {devMode && !verified && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-4 text-xs" role="alert">
-          <p className="font-semibold text-amber-800">🛠️ Dev Mode — Email OTP</p>
-          <p className="text-amber-700 mt-0.5">Check server console for OTP</p>
-        </div>
-      )}
+      {/* Dev mode banner — hidden in production */}
 
       {/* Status message */}
-      {status && !devMode && (
+      {status && (
         <p className="text-xs text-gray-500 mb-3" aria-live="polite">{status}</p>
       )}
 
@@ -289,18 +283,10 @@ function PhonePanel({ userId, phone, onVerified, isActive }) {
         )}
       </div>
 
-      {/* Dev mode banner */}
-      {devMode && devOtp && !verified && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl px-4 py-3 mb-4 text-xs" role="alert">
-          <p className="font-semibold text-blue-800">🛠️ Dev Mode — Phone OTP</p>
-          <p className="text-blue-700 mt-0.5">
-            Code: <span className="font-mono font-bold text-blue-900 text-sm">{devOtp}</span>
-          </p>
-        </div>
-      )}
+      {/* Dev mode banner — hidden in production */}
 
       {/* Status message */}
-      {status && !devMode && (
+      {status && (
         <p className="text-xs text-gray-500 mb-3" aria-live="polite">{status}</p>
       )}
 
