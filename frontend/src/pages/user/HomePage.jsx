@@ -134,7 +134,7 @@ export default function HomePage() {
           {[
             { icon: '🌿', label: 'Certified Organic' },
             { icon: '🐝', label: 'Raw & Unprocessed' },
-            { icon: '🚚', label: 'Free Shipping ₹500+' },
+            { icon: '🚚', label: 'Free Shipping ₹3,499+' },
             { icon: '🔒', label: 'Secure Payments' },
             { icon: '🏆', label: 'Premium Quality' },
             { icon: '🌱', label: 'Farm Fresh' },
@@ -214,7 +214,7 @@ export default function HomePage() {
               {
                 icon: '🚀',
                 title: 'Fast Delivery',
-                desc: 'Orders dispatched within 24 hours. Free shipping on orders above ₹500. Delivered fresh to your doorstep.',
+                desc: 'Orders dispatched within 24 hours. Free shipping on orders above ₹3,499. Delivered fresh to your doorstep.',
                 color: '#FDF4FF',
                 border: '#D8B4FE',
               },
