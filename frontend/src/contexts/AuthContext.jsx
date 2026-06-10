@@ -99,7 +99,14 @@ export function AuthProvider({ children }) {
         body: JSON.stringify(payload),
       })
       const data = await res.json()
-      if (res.ok) return { success: true, user: data.user }
+      if (res.ok) {
+        // If token is returned (auto-activated account), save session
+        if (data.token && data.user) {
+          saveSession(data.token, data.user)
+          dispatch({ type: 'SET_USER', payload: data.user })
+        }
+        return { success: true, user: data.user }
+      }
       // Pass through needsVerification fields so RegisterPage can handle them
       return {
         success: false,

@@ -90,11 +90,8 @@ export default function RegisterPage() {
     try {
       const result = await register({ fullName: form.fullName, email: form.email, phone: form.phone, password: form.password })
       if (result.success) {
-        // Navigate to VerifyAccountPage with userId, email, and phone
-        const userId = result.user._id || result.user.id
-        navigate('/verify-account', {
-          state: { userId, email: result.user.email, phone: result.user.phone || form.phone },
-        })
+        // Account is auto-activated — redirect to home
+        navigate('/', { replace: true })
       } else if (result.needsVerification) {
         // Account exists but not verified — redirect to verification with available data
         navigate('/verify-account', {
