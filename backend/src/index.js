@@ -58,6 +58,10 @@ if (productCount === 0) {
 const app = express()
 const PORT = process.env.PORT || 5000
 
+// ─── Trust proxy (required for Render/Heroku behind reverse proxy) ────────────
+// Fixes express-rate-limit ERR_ERL_UNEXPECTED_X_FORWARDED_FOR
+app.set('trust proxy', 1)
+
 // ─── Middleware ───────────────────────────────────────────────────────────────
 
 app.use(cors({

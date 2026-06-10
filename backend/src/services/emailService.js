@@ -9,14 +9,17 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 // Create reusable transporter
 function createTransporter() {
+  const port = Number(process.env.EMAIL_PORT) || 465
   return nodemailer.createTransport({
     host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-    port: Number(process.env.EMAIL_PORT) || 587,
-    secure: false, // TLS
+    port,
+    secure: port === 465, // true for 465 (SSL), false for 587 (TLS)
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
+    connectionTimeout: 10000, // 10 seconds
+    greetingTimeout: 10000,
   })
 }
 
