@@ -5,7 +5,7 @@ import Button from '../../components/ui/Button.jsx'
 import EmptyState from '../../components/ui/EmptyState.jsx'
 import Modal from '../../components/ui/Modal.jsx'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://siddha-organics.onrender.com'
 
 function authHeaders() {
   return {

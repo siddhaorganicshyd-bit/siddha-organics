@@ -3,7 +3,7 @@
  * All order operations go through the backend REST API.
  */
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://siddha-organics.onrender.com'
 
 function getToken() {
   return localStorage.getItem('siddha_token')

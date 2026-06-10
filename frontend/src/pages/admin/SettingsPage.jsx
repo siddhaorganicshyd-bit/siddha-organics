@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getToken } from '../../contexts/AuthContext'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://siddha-organics.onrender.com'
 
 function authHeaders() {
   return {

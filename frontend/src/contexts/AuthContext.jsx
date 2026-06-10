@@ -2,7 +2,7 @@ import React, { createContext, useContext, useReducer, useEffect, useCallback } 
 
 const AuthContext = createContext(null)
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://siddha-organics.onrender.com'
 const TOKEN_KEY = 'siddha_token'
 const USER_KEY = 'siddha_user'
 

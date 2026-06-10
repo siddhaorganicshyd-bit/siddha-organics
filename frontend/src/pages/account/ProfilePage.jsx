@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/index.js'
 import Button from '../../components/ui/Button.jsx'
 import FormField from '../../components/ui/FormField.jsx'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://siddha-organics.onrender.com'
 
 export default function ProfilePage() {
   const { currentUser } = useAuth()

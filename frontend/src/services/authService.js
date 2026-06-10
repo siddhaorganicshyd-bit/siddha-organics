@@ -6,7 +6,7 @@
 
 import { generateOTP } from '../utils/validators'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://siddha-organics.onrender.com'
 const OTP_STORE_KEY = 'siddha_otp_store'
 
 // ─── OTP store helpers (localStorage) ────────────────────────────────────────

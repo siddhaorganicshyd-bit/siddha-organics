@@ -4,7 +4,7 @@
  * All functions return { success, ...data } on success or { success: false, error } on failure.
  */
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://siddha-organics.onrender.com'
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
