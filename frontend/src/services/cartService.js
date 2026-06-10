@@ -6,6 +6,9 @@
 
 import { getProduct } from './productService.js';
 
+// NOTE: getProduct is now async (API call). For cart operations that need
+// product data synchronously, the caller must pass products from context.
+
 // ─── localStorage helpers ─────────────────────────────────────────────────────
 
 /**
@@ -56,7 +59,6 @@ export function saveCart(userId, cart) {
 
 /**
  * Add an item to the cart.
- * - Checks available stock via productService.
  * - If the item already exists, increments its quantity.
  * - Otherwise creates a new line item with a `priceAtAdd` snapshot.
  * - Saves the updated cart.
@@ -65,16 +67,17 @@ export function saveCart(userId, cart) {
  * @param {string} productId
  * @param {string} variantId
  * @param {number} quantity
+ * @param {object} [productData] - Optional product object from context (for stock/price lookup)
  * @returns {import('../types/index').Cart}
  */
-export function addItem(userId, productId, variantId, quantity) {
+export function addItem(userId, productId, variantId, quantity, productData) {
   const cart = getCart(userId);
 
-  // Resolve product and variant for stock + price snapshot
-  const product = getProduct(productId);
-  const variant = product ? product.variants.find((v) => v.id === variantId) : null;
+  // Use passed product data (from context) since getProduct is now async
+  const product = productData || null;
+  const variant = product ? product.variants.find((v) => (v._id || v.id) === variantId) : null;
 
-  const availableStock = variant ? variant.stock : 0;
+  const availableStock = variant ? variant.stock : 999; // default to 999 if no product data
 
   const existingIndex = cart.items.findIndex(
     (item) => item.productId === productId && item.variantId === variantId,

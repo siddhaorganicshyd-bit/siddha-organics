@@ -61,8 +61,8 @@ export function CartProvider({ children, currentUser }) {
   // ─── Mutation operations ─────────────────────────────────────────────────────
 
   const addItem = useCallback(
-    (productId, variantId, quantity) => {
-      const updated = serviceAddItem(userId, productId, variantId, quantity)
+    (productId, variantId, quantity, productData) => {
+      const updated = serviceAddItem(userId, productId, variantId, quantity, productData)
       setCart(updated)
       return updated
     },

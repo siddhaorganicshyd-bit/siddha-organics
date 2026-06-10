@@ -289,7 +289,7 @@ export default function ProductDetailPage() {
   const handleAddToCart = () => {
     if (!selectedVariant || isOutOfStock) return
     try {
-      addItem(product.id, selectedVariant.id, quantity)
+      addItem(product.id || product._id, selectedVariant.id || selectedVariant._id, quantity, product)
       setAddedToast(true)
       setTimeout(() => setAddedToast(false), 3000)
     } catch (err) {

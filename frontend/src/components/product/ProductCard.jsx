@@ -23,7 +23,7 @@ export default function ProductCard({ product, eager = false, hideAddToCart = fa
   const handleAddToCart = (e) => {
     e.preventDefault()
     if (!firstVariant || isOutOfStock) return
-    addItem(product.id, firstVariant.id, 1)
+    addItem(product.id || product._id, firstVariant.id || firstVariant._id, 1, product)
     setPulse(true)
     setTimeout(() => setPulse(false), 400)
   }
