@@ -95,24 +95,16 @@ export async function register(req, res) {
       phone,
       passwordHash: password, // pre-save hook will hash it
       role: 'user',
-      status: 'active', // Auto-activate (email verification skipped — SMTP blocked on Render free tier)
-      emailVerified: true,
-      phoneVerified: true,
+      status: 'pending_verification',
+      emailVerified: false,
+      phoneVerified: true, // Auto-verify phone (no SMS)
     })
 
     await newUser.save()
 
-    // Generate JWT so user is logged in immediately after registration
-    const token = jwt.sign(
-      { userId: newUser._id.toString(), role: newUser.role, email: newUser.email },
-      JWT_SECRET,
-      { expiresIn: '1d' }
-    )
-
     return res.status(201).json({
       success: true,
       user: newUser.toJSON(),
-      token,
     })
   } catch (err) {
     console.error('Register error:', err.message)
