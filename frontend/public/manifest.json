@@ -1,0 +1,24 @@
+{
+  "name": "Siddha Organics",
+  "short_name": "Siddha",
+  "description": "Pure Goodness, Organic — Shop premium organic honey, ghee, jaggery and spices.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F0E8",
+  "theme_color": "#2D5016",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://www.image2url.com/r2/default/images/1780742274635-913a5ef0-80b3-40fa-927c-6b28ce2dc610.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://www.image2url.com/r2/default/images/1780742274635-913a5ef0-80b3-40fa-927c-6b28ce2dc610.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

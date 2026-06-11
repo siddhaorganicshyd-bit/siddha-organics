@@ -86,7 +86,7 @@ export default function CartPage() {
                 </div>
                 {cartTotals.shipping > 0 && (
                   <p className="text-xs text-gray-400">
-                    Free shipping on orders above ₹500
+                    Free shipping on orders above ₹3,499
                   </p>
                 )}
                 <div className="border-t border-cream-dark pt-3 flex justify-between font-bold text-base">
