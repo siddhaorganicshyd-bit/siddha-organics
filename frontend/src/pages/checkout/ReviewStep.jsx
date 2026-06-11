@@ -118,7 +118,16 @@ export default function ReviewStep({ checkoutData, onBack, onOrderPlaced }) {
     setPaymentState('processing')
 
     try {
-      const result = await processPayment(paymentMethod, paymentDetails || {})
+      // Calculate final amount (subtract coupon discount if applied)
+      const finalAmount = appliedCoupon
+        ? cartTotals.total - appliedCoupon.discount
+        : cartTotals.total
+
+      const result = await processPayment(finalAmount, {
+        name: currentUser?.fullName || '',
+        email: currentUser?.email || '',
+        phone: currentUser?.phone || '',
+      })
 
       if (result.success) {
         setPaymentState('success')

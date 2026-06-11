@@ -21,6 +21,7 @@ import wishlistRoutes from './routes/wishlist.js'
 import reviewRoutes from './routes/reviews.js'
 import adminCouponRoutes from './routes/adminCoupons.js'
 import couponRoutes from './routes/coupons.js'
+import paymentRoutes from './routes/payment.js'
 import connectDB from './config/db.js'
 import { User, Product } from './models/index.js'
 
@@ -91,6 +92,7 @@ app.use('/api/wishlist', wishlistRoutes)
 app.use('/api/reviews', reviewRoutes)
 app.use('/api/admin/coupons', adminCouponRoutes)
 app.use('/api/coupons', couponRoutes)
+app.use('/api/payment', paymentRoutes)
 
 // ─── Health check ─────────────────────────────────────────────────────────────
 
