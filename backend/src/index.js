@@ -30,12 +30,12 @@ await connectDB()
 
 // Seed admin if not exists
 const adminExists = await User.findOne({ role: 'admin' })
-if (!adminExists) {
+if (!adminExists && process.env.ADMIN_EMAIL && process.env.ADMIN_PASSWORD) {
   await User.create({
-    fullName: 'Siddha Admin',
-    email: 'admin@siddhaorganics.com',
-    phone: '9876543210',
-    passwordHash: 'Admin@123', // pre-save hook will hash
+    fullName: process.env.ADMIN_NAME || 'Admin',
+    email: process.env.ADMIN_EMAIL,
+    phone: process.env.ADMIN_PHONE || '0000000000',
+    passwordHash: process.env.ADMIN_PASSWORD,
     role: 'admin',
     status: 'active',
     emailVerified: true,
