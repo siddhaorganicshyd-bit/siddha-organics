@@ -124,9 +124,11 @@ export default function ChatBot() {
         >
           {/* Header */}
           <div className="px-4 py-3 flex items-center gap-3" style={{ background: 'linear-gradient(135deg, #2D5016, #4A7C2F)' }}>
-            <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg">
-              🌿
-            </div>
+            <img
+              src="https://www.image2url.com/r2/default/images/1780742274635-913a5ef0-80b3-40fa-927c-6b28ce2dc610.png"
+              alt="Siddha Bot"
+              className="w-9 h-9 rounded-full bg-white/20 object-contain p-0.5"
+            />
             <div>
               <p className="text-white font-bold text-sm">Siddha Bot</p>
               <p className="text-white/70 text-xs">Ask me anything!</p>
