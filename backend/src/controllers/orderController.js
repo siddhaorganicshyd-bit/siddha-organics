@@ -5,7 +5,7 @@
  */
 
 import { Order, Product, User } from '../models/index.js'
-import { sendOrderConfirmationEmail } from '../services/emailService.js'
+import { sendOrderConfirmationEmail, sendDeliveryEmail, sendStatusUpdateEmail } from '../services/emailService.js'
 
 function addBusinessDays(date, days) {
   const result = new Date(date)
@@ -236,6 +236,20 @@ export async function updateOrderStatus(req, res) {
       },
       { new: true }
     )
+
+    // Send email notification to customer on status change (fire-and-forget)
+    try {
+      const user = await User.findById(updated.userId)
+      if (user?.email) {
+        if (status === 'Delivered') {
+          await sendDeliveryEmail(user.email, updated, note)
+        } else {
+          await sendStatusUpdateEmail(user.email, updated, status, note)
+        }
+      }
+    } catch (emailErr) {
+      console.error('Failed to send status update email:', emailErr.message)
+    }
 
     return res.json(updated)
   } catch (err) {

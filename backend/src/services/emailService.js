@@ -157,3 +157,106 @@ export async function sendOrderConfirmationEmail(to, order) {
 
   return sendEmail(to, `Order Confirmed — ${order._id || order.id}`, html)
 }
+
+
+/**
+ * Send a delivery notification email to the customer.
+ * @param {string} to - recipient email
+ * @param {object} order - the order document
+ * @param {string} [note] - optional delivery note from admin
+ * @returns {Promise<{ success: boolean, dev?: boolean, error?: string }>}
+ */
+export async function sendDeliveryEmail(to, order, note) {
+  const addr = order.shippingAddress
+  const addressStr = `${addr.fullName}, ${addr.line1}${addr.line2 ? ', ' + addr.line2 : ''}, ${addr.city}, ${addr.state} - ${addr.pinCode}`
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; background: #f9f6f0; border-radius: 12px;">
+      <div style="text-align: center; margin-bottom: 24px; background: #2d4a1e; padding: 20px; border-radius: 8px 8px 0 0;">
+        <h1 style="color: #fff; font-size: 24px; margin: 0;">Siddha Organics</h1>
+        <p style="color: #c8e6c0; margin: 4px 0 0;">Natural & Organic Products</p>
+      </div>
+      <div style="background: #fff; border-radius: 0 0 8px 8px; padding: 24px;">
+        <h2 style="color: #2d4a1e; margin-top: 0;">Your Order is Delivered! 📦✅</h2>
+        <p style="color: #555; line-height: 1.6;">
+          Great news! Your order has been successfully delivered to the address below.
+        </p>
+
+        <div style="background: #f0f7ec; border-radius: 8px; padding: 16px; margin: 16px 0;">
+          <p style="margin: 4px 0; color: #333;"><strong>Order ID:</strong> ${order._id || order.id}</p>
+          <p style="margin: 4px 0; color: #333;"><strong>Total:</strong> ₹${(order.total / 100).toFixed(2)}</p>
+        </div>
+
+        <div style="margin: 16px 0; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px;">
+          <p style="margin: 0 0 4px; color: #2d4a1e; font-weight: bold;">Delivered To</p>
+          <p style="margin: 0; color: #555; line-height: 1.5;">${addressStr}</p>
+        </div>
+
+        ${note ? `
+        <div style="margin: 16px 0; padding: 12px; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px;">
+          <p style="margin: 0 0 4px; color: #92400e; font-weight: bold;">Delivery Note</p>
+          <p style="margin: 0; color: #78350f;">${note}</p>
+        </div>
+        ` : ''}
+
+        <p style="color: #555; line-height: 1.6; margin-top: 20px;">
+          We hope you enjoy our products! If you have any feedback or issues, please reply to this email or contact us at support@siddhaorganics.org
+        </p>
+
+        <div style="text-align: center; margin-top: 24px;">
+          <a href="https://www.siddhaorganics.org/shop" style="display: inline-block; background: #2d4a1e; color: #fff; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+            Shop Again →
+          </a>
+        </div>
+      </div>
+    </div>
+  `
+
+  return sendEmail(to, `Order Delivered — ${order._id || order.id}`, html)
+}
+
+/**
+ * Send a status update email to the customer.
+ * @param {string} to - recipient email
+ * @param {object} order - the order document
+ * @param {string} newStatus - the new status
+ * @param {string} [note] - optional note from admin
+ * @returns {Promise<{ success: boolean, dev?: boolean, error?: string }>}
+ */
+export async function sendStatusUpdateEmail(to, order, newStatus, note) {
+  const statusMessages = {
+    Processing: 'Your order is being processed and will be shipped soon.',
+    Shipped: 'Your order has been shipped! It will arrive within a few days.',
+    Delivered: 'Your order has been delivered successfully!',
+    Cancelled: 'Your order has been cancelled.',
+  }
+
+  const message = statusMessages[newStatus] || `Your order status has been updated to: ${newStatus}`
+
+  const html = `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 32px; background: #f9f6f0; border-radius: 12px;">
+      <div style="text-align: center; margin-bottom: 24px; background: #2d4a1e; padding: 20px; border-radius: 8px 8px 0 0;">
+        <h1 style="color: #fff; font-size: 24px; margin: 0;">Siddha Organics</h1>
+        <p style="color: #c8e6c0; margin: 4px 0 0;">Order Update</p>
+      </div>
+      <div style="background: #fff; border-radius: 0 0 8px 8px; padding: 24px;">
+        <h2 style="color: #2d4a1e; margin-top: 0;">Order Status: ${newStatus}</h2>
+        <p style="color: #555; line-height: 1.6;">${message}</p>
+
+        <div style="background: #f0f7ec; border-radius: 8px; padding: 16px; margin: 16px 0;">
+          <p style="margin: 4px 0; color: #333;"><strong>Order ID:</strong> ${order._id || order.id}</p>
+          <p style="margin: 4px 0; color: #333;"><strong>Status:</strong> ${newStatus}</p>
+        </div>
+
+        ${note ? `
+        <div style="margin: 16px 0; padding: 12px; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 8px;">
+          <p style="margin: 0 0 4px; color: #92400e; font-weight: bold;">Note</p>
+          <p style="margin: 0; color: #78350f;">${note}</p>
+        </div>
+        ` : ''}
+      </div>
+    </div>
+  `
+
+  return sendEmail(to, `Order Update — ${newStatus} — ${order._id || order.id}`, html)
+}
