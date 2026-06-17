@@ -19,11 +19,12 @@ self.addEventListener('activate', (event) => {
 // Fetch — network first, fall back to cache
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return
+  // Skip non-http(s) requests (e.g. chrome-extension://)
+  if (!event.request.url.startsWith('http')) return
 
   event.respondWith(
     fetch(event.request)
       .then((response) => {
-        // Cache successful responses
         if (response.status === 200) {
           const clone = response.clone()
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone))
