@@ -11,6 +11,11 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 })
 
+// Validate Razorpay credentials at startup
+if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+  console.warn('⚠️  RAZORPAY_KEY_ID or RAZORPAY_KEY_SECRET is missing from environment variables. Payments will fail.')
+}
+
 /**
  * POST /api/payment/create-order
  * Creates a Razorpay order for the given amount.
@@ -25,7 +30,7 @@ export async function createOrder(req, res) {
     }
 
     const options = {
-      amount: Math.round(amount), // amount in paise
+      amount: Math.round(Number(amount)), // amount in paise, must be integer
       currency,
       receipt: `order_${Date.now()}`,
     }
@@ -42,8 +47,8 @@ export async function createOrder(req, res) {
       key_id: process.env.RAZORPAY_KEY_ID,
     })
   } catch (err) {
-    console.error('Razorpay create order error:', err.message)
-    return res.status(500).json({ error: 'Failed to create payment order.' })
+    console.error('Razorpay create order error:', err.message || err)
+    return res.status(500).json({ error: err.error?.description || 'Failed to create payment order.' })
   }
 }
 

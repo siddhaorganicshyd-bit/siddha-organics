@@ -166,7 +166,8 @@ export default function SettingsPage() {
           <div className="w-8 h-8 border-4 border-green-600 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
+        <div className="max-w-2xl space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
 
           {/* Store Details */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -364,10 +365,11 @@ export default function SettingsPage() {
               {saving ? 'Saving…' : 'Save Settings'}
             </button>
           </div>
-        </form>
+          </form>
 
-        {/* Password Change Section */}
-        <PasswordChangeSection />
+          {/* Change Admin Password */}
+          <PasswordChangeSection />
+        </div>
       )}
     </div>
   )
@@ -427,7 +429,7 @@ function PasswordChangeSection() {
   }
 
   return (
-    <form onSubmit={handlePwSubmit} className="mt-6 max-w-2xl">
+    <form onSubmit={handlePwSubmit} aria-label="Change password">
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <h2 className="text-base font-semibold text-gray-800 mb-4">Change Admin Password</h2>
 

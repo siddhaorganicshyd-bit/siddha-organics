@@ -21,6 +21,8 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return
   // Skip non-http(s) requests (e.g. chrome-extension://)
   if (!event.request.url.startsWith('http')) return
+  // Skip API calls — let them go straight to network without caching
+  if (event.request.url.includes('/api/')) return
 
   event.respondWith(
     fetch(event.request)
@@ -31,6 +33,10 @@ self.addEventListener('fetch', (event) => {
         }
         return response
       })
-      .catch(() => caches.match(event.request))
+      .catch(() =>
+        caches.match(event.request).then((cached) =>
+          cached || new Response('Offline', { status: 503, statusText: 'Service Unavailable' })
+        )
+      )
   )
 })

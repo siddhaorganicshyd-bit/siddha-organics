@@ -57,7 +57,7 @@ export async function processPayment(amount, userInfo = {}) {
     const orderRes = await fetch(`${API_URL}/api/payment/create-order`, {
       method: 'POST',
       headers: authHeaders(),
-      body: JSON.stringify({ amount }),
+      body: JSON.stringify({ amount: Math.round(amount) }),
     })
 
     if (!orderRes.ok) {
@@ -68,9 +68,12 @@ export async function processPayment(amount, userInfo = {}) {
     const { order, key_id } = await orderRes.json()
 
     // Step 2: Open Razorpay checkout popup
+    // Use env var for key_id as primary, fallback to backend-provided key
+    const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID || key_id
+
     return new Promise((resolve) => {
       const options = {
-        key: key_id,
+        key: razorpayKey,
         amount: order.amount,
         currency: order.currency,
         name: 'Siddha Organics',
