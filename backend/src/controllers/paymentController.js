@@ -47,8 +47,10 @@ export async function createOrder(req, res) {
       key_id: process.env.RAZORPAY_KEY_ID,
     })
   } catch (err) {
-    console.error('Razorpay create order error:', err.message || err)
-    return res.status(500).json({ error: err.error?.description || 'Failed to create payment order.' })
+    // Razorpay SDK wraps errors in err.error.description
+    const errorMsg = err?.error?.description || err?.message || 'Failed to create payment order.'
+    console.error('Razorpay create order error:', errorMsg, err?.statusCode || '')
+    return res.status(err?.statusCode || 500).json({ error: errorMsg })
   }
 }
 
