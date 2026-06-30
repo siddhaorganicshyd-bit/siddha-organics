@@ -53,6 +53,8 @@ export default function OrderConfirmationPage() {
         return 'UPI'
       case 'netbanking':
         return 'Net Banking'
+      case 'razorpay':
+        return 'Online Payment (Razorpay)'
       case 'cod':
         return 'Cash on Delivery'
       default:

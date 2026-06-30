@@ -29,15 +29,12 @@ export default function ReviewStep({ checkoutData, onBack, onOrderPlaced }) {
   const { shippingAddress, paymentMethod, paymentDetails } = checkoutData
 
   const isCod = paymentMethod === 'cod'
+  const isRazorpay = paymentMethod === 'razorpay'
 
   const getPaymentLabel = () => {
     switch (paymentMethod) {
-      case 'card':
-        return `Card ending in ${paymentDetails?.last4 || '****'}`
-      case 'upi':
-        return `UPI: ${paymentDetails?.upiId}`
-      case 'netbanking':
-        return `Net Banking: ${paymentDetails?.bank}`
+      case 'razorpay':
+        return 'Online Payment (Razorpay)'
       case 'cod':
         return 'Cash on Delivery'
       default:
@@ -114,7 +111,47 @@ export default function ReviewStep({ checkoutData, onBack, onOrderPlaced }) {
       return
     }
 
-    // For online payments: process payment first, then place order on success
+    // For Razorpay online payments: open Razorpay payment page
+    if (isRazorpay) {
+      try {
+        // Place order first with pending payment status
+        const order = await placeOrder({
+          userId: currentUser.id,
+          items: cart.items,
+          products,
+          shippingAddress,
+          payment: {
+            method: 'razorpay',
+            transactionId: null,
+            paidAt: null,
+            status: 'pending',
+          },
+          subtotal: cartTotals.subtotal,
+          tax: cartTotals.tax,
+          shippingCost: cartTotals.shipping,
+          total: cartTotals.total,
+          discount: appliedCoupon?.discount || 0,
+        })
+
+        // Calculate final amount for display
+        const finalAmount = appliedCoupon
+          ? cartTotals.total - appliedCoupon.discount
+          : cartTotals.total
+        const amountInRupees = (finalAmount / 100).toFixed(2)
+
+        // Clear cart and redirect to Razorpay Payment Page
+        clearCart()
+
+        // Open Razorpay payment link in same tab
+        window.location.href = `https://razorpay.me/@siddhaorganics?amount=${amountInRupees}`
+      } catch (err) {
+        setPaymentError('Failed to place order. Please try again.')
+        setProcessing(false)
+      }
+      return
+    }
+
+    // For other online payments: process payment first via Razorpay checkout modal
     setPaymentState('processing')
 
     try {
